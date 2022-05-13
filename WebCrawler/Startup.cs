@@ -16,6 +16,10 @@ namespace WebCrawler
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            // Поддержка контроллеров и представлений
+            services.AddControllersWithViews()
+                // Совместимость в Asp.Net Core 3.0
+                .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -28,12 +32,13 @@ namespace WebCrawler
 
             app.UseRouting();
 
+            // Поддержка статических файлов
+            app.UseStaticFiles();
+
+            // Регистрация маршрутов
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
+                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
