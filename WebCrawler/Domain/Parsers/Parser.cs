@@ -33,7 +33,7 @@ namespace WebCrawler.Domain.Parsers
             int position = rawText.IndexOf(flag);
             string title = rawText.Substring(position + 44);
             title = title.Remove(title.IndexOf("</h1>"));
-            return title;
+            return ClearText(title);
         }
 
         private static string ParseText(string rawText)

@@ -21,6 +21,11 @@ namespace WebCrawler.Controllers
             return View();
         }
 
+        public IActionResult Contacts()
+        {
+            return View();
+        }
+
         public IActionResult Search()
         {
             return View();
@@ -49,7 +54,7 @@ namespace WebCrawler.Controllers
             var config = new CrawlConfiguration
             {
                 MaxPagesToCrawl = amount, //Only crawl 'amount' pages
-                MinCrawlDelayPerDomainMilliSeconds = 100 //Wait this many millisecs between requests
+                MinCrawlDelayPerDomainMilliSeconds = 20 //Wait this many millisecs between requests
             };
             var crawler = new PoliteWebCrawler(config);
 
@@ -70,6 +75,7 @@ namespace WebCrawler.Controllers
             else
             {
                 Article article = new();
+                article.Id = Guid.NewGuid();
                 article.FullText = rawPageText;
                 article.Url = e.CrawledPage.HttpRequestMessage.RequestUri;
 

@@ -1,0 +1,21 @@
+﻿@model Article
+@{
+//ViewBag.Title = Model.MetaTitle;
+//ViewBag.Description = Model.MetaDescription;
+//ViewBag.Keywords = Model.MetaKeywords;
+}
+
+<div>
+    <h2>
+        @Model.Title
+    </h2>
+    <h3>
+        @Model.Url
+    </h3>
+    <h3>
+        @Model.Date.ToShortDateString()
+    </h3>
+</div>
+<div>
+    @Html.Raw(Model.Text)
+</div>

@@ -1,0 +1,46 @@
+﻿@model List<Article>
+@{
+//TextField textField = ViewBag.TextField;
+
+//ViewBag.Title = textField.MetaTitle;
+//ViewBag.Description = textField.MetaDescription;
+//ViewBag.Keywords = textField.MetaKeywords;
+}
+
+@*<div>
+    @Html.Raw(textField.Text)
+</div>*@
+<div>
+    <h2>
+        Список имеющихся статей:
+    </h2>
+</div>
+<div>
+    @if (Model.Any())
+    {
+        <ul class="big-image-list">
+            @foreach (Article entity in Model)
+            {
+                <li>
+                    @*<a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-id="@entity.Id">
+                        <img src="~/images//@entity.TitleImagePath" alt="" class="left" />
+                    </a>*@
+                    <h4>
+                        <a asp-area="" asp-controller="Article" asp-action="Index" asp-route-id="@entity.Id">
+                            @entity.Title
+                        </a>
+                    </h4>
+                    @*<p>@entity.Subtitle</p>*@
+                </li>
+            }
+        </ul>
+        @*@if (ViewBag.CurrentPageNumber > 0)
+        {
+            <a style="margin-right: 20pt" asp-area="" asp-controller="Articles" asp-action="Index" asp-route-num="@((ViewBag.CurrentPageNumber) - 1)">@localizer["Previous"]</a>
+        }
+        if (ViewBag.CurrentPageNumber < ViewBag.AmountOfPages)
+        {
+            <a asp-area="" asp-controller="Articles" asp-action="Index" asp-route-num="@((ViewBag.CurrentPageNumber) + 1 )">@localizer["Next"]</a>
+        }*@
+    }
+</div>
