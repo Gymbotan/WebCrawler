@@ -2,4 +2,23 @@
     <h1>
         Это главная страница
     </h1>
+    <form asp-area="" asp-controller="Home" asp-action="Search" method="post" asp-route-siteUrl="siteUrl">
+        <div asp-validation-summary="All"></div>
+        <div>
+            <label>Введите название новостного сайта. Пока работает только для: regions.by</label>
+            <label>Примечание: Около 18 первых страниц обзорные и не являются статьями</label>
+            <input type="text" name="siteUrl" />
+            <span></span>
+        </div>
+        <div>
+            <label>Сколько страниц скачать</label>
+            <input type="text" name="amount" />
+            <label>*Внимание! Если страница не будет распознана как статья, она не будет сохранена!</label>
+            <span></span>
+        </div>
+        <div>
+            <input type="submit" value="Найти" />
+        </div>
+    </form>
+    <a asp-area="" asp-controller="Home" asp-action="Index">ссылка на главную страницу</a>
 </div>
