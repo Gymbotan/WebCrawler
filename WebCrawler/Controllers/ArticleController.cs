@@ -31,5 +31,24 @@ namespace WebCrawler.Controllers
             //}
             return View(Storage.Articles);
         }
+
+        public ActionResult Search(string template)
+        {
+            if (!string.IsNullOrWhiteSpace(template))
+            {
+                ViewBag.searchTemplate = template;
+                return View(Storage.Articles.Where(article => article.Text.ToLower().Contains(template.ToLower())).Select(x => x));
+            }
+            //ViewBag.TextField = dataManager.TextFields.GetTextFieldByCodeWord("PageServices");
+            //ViewBag.CurrentPageNumber = num ?? 0;
+            //ViewBag.AmountOfPages = (dataManager.Articles.GetAmountOfArticles() - 1) / pageSize;
+
+            //int page = num ?? 0;
+            //if (Request.Headers["x-requested-with"] == "XMLHttpRequest")
+            //{
+            //    return PartialView("_Items", GetItemsPage(page));
+            //}
+            return View(Enumerable.Empty<Article>());
+        }
     }
 }

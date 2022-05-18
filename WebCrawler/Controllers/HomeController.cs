@@ -38,10 +38,10 @@ namespace WebCrawler.Controllers
 
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Information()
-                .WriteTo.Console()
+                //.WriteTo.Console()
                 .CreateLogger();
 
-            Log.Logger.Information("Demo starting up!");
+            //Log.Logger.Information("Demo starting up!");
             int before = Storage.Articles.Count;
             await DemoSimpleCrawler(siteUrl, amount);
             int after = Storage.Articles.Count;
@@ -54,7 +54,7 @@ namespace WebCrawler.Controllers
             var config = new CrawlConfiguration
             {
                 MaxPagesToCrawl = amount, //Only crawl 'amount' pages
-                MinCrawlDelayPerDomainMilliSeconds = 20 //Wait this many millisecs between requests
+                MinCrawlDelayPerDomainMilliSeconds = 10 //Wait this many millisecs between requests
             };
             var crawler = new PoliteWebCrawler(config);
 

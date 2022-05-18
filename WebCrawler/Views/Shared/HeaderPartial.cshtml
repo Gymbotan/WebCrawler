@@ -6,13 +6,14 @@
 <nav id="nav">
     <ul class="links">
         <li @*class="active"*@><a asp-controller="Home" asp-action="Index">Главная</a></li>
-        <li><a asp-controller="Article" asp-action="Index">Статьи</a></li>
+        <li><a asp-controller="Article" asp-action="Index" asp-route-id="@string.Empty">Все статьи</a></li>
+        <li><a asp-controller="Article" asp-action="Search">Поиск статей</a></li>
         <li><a asp-controller="Home" asp-action="Contacts">Контакты</a></li>
     </ul>
-    <ul class="icons">
+    @*<ul class="icons">
         <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
         <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
         <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
         <li><a href="#" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
-    </ul>
+    </ul>*@
 </nav>
