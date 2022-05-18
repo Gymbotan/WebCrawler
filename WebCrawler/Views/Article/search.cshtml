@@ -18,7 +18,7 @@
 <form asp-area="" asp-controller="Article" asp-action="Search" method="get" asp-route-siteUrl="template">
     <div>
         <h2>Введите текст для поиска по статьям</h2>
-        <input type="text" name="template" />
+        <input type="text" name="template" value="@ViewBag.searchTemplate"/>
         <span></span>
     </div>
 </form>

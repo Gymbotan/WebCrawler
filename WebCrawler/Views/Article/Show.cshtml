@@ -19,3 +19,14 @@
 <div>
     @Html.Raw(Model.Text)
 </div>
+<div>
+    <h3>Найденные аттрибуты статьи:</h3>
+    @foreach (var attr in Model.Attributes)
+    {
+        <h4>
+            <a asp-area="" asp-controller="Article" asp-action="Search" asp-route-template="@attr">
+                @attr
+            </a>
+        </h4>
+    }
+</div>

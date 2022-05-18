@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Pullenti.Ner;
+using Pullenti.Ner.Geo;
+using Pullenti.Ner.Org;
+using Pullenti.Ner.Person;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,16 +14,25 @@ namespace WebCrawler.Domain.Parsers
     {
         public static void Parse(Article article, string rawText)
         {
+            if (article is null)
+            {
+                throw new ArgumentNullException(nameof(article));
+            }
+
             if (string.IsNullOrWhiteSpace(rawText))
             {
                 throw new ArgumentNullException(nameof(rawText));
             }
+
+            article.Attributes = new List<string>();
 
             article.Title = ParseTitle(rawText);
 
             article.Text = ParseText(rawText);
 
             article.Date = ParseDate(rawText);
+
+            FindAttributes(article);
         }
 
         private static string ParseTitle(string rawText)
@@ -110,6 +123,27 @@ namespace WebCrawler.Domain.Parsers
             string dateAsString = rawText.Substring(position + 25, 10);
             string[] dividedDate = dateAsString.Split('-');
             return new DateTime(int.Parse(dividedDate[0]), int.Parse(dividedDate[1]), int.Parse(dividedDate[2]));
+        }
+
+        private static void FindAttributes(Article article)
+        {
+            //Pullenti.Sdk.InitializeAll(); // Инициализация
+
+            PersonAnalyzer anPer = new();
+            GeoAnalyzer anGeo = new();
+            OrganizationAnalyzer anOrg = new();
+            Processor processor = ProcessorService.CreateEmptyProcessor();
+            
+            processor.AddAnalyzer(anPer);
+            processor.AddAnalyzer(anGeo);
+            processor.AddAnalyzer(anOrg);
+
+            AnalysisResult result = processor.Process(new SourceOfAnalysis(article.Text));
+            // получили выделенные сущности
+            foreach (Referent entity in result.Entities)
+            {
+                article.Attributes.Add(entity.ToString());
+            }
         }
     }
 }

@@ -60,7 +60,7 @@ namespace WebCrawler.Controllers
 
             crawler.PageCrawlCompleted += PageCrawlCompleted;//Several events available...
 
-            await crawler.CrawlAsync(new Uri("https://"+siteUrl));
+            await crawler.CrawlAsync(new Uri("https://"+siteUrl.Trim()));
         }
 
         private static void PageCrawlCompleted(object sender, PageCrawlCompletedArgs e)

@@ -37,7 +37,7 @@ namespace WebCrawler.Controllers
             if (!string.IsNullOrWhiteSpace(template))
             {
                 ViewBag.searchTemplate = template;
-                return View(Storage.Articles.Where(article => article.Text.ToLower().Contains(template.ToLower())).Select(x => x));
+                return View(Storage.Articles.Where(article => article.Text.Contains(template, StringComparison.OrdinalIgnoreCase) || article.Attributes.Contains(template, StringComparer.CurrentCultureIgnoreCase)).Select(x => x));
             }
             //ViewBag.TextField = dataManager.TextFields.GetTextFieldByCodeWord("PageServices");
             //ViewBag.CurrentPageNumber = num ?? 0;

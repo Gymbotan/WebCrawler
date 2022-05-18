@@ -39,6 +39,11 @@ namespace WebCrawler.Domain.Entities
         /// </summary>
         public DateTime Date { get; set; }
 
+        /// <summary>
+        /// Article's attributes.
+        /// </summary>
+        public List<string> Attributes { get; set; }
+
         public override string ToString()
         {
             string result = ($"Title: {Title}\nUrl: {Url}\nDate: {Date}\nText: {Text}\n");
