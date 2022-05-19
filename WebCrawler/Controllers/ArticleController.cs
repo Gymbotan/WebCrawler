@@ -37,7 +37,7 @@ namespace WebCrawler.Controllers
             if (!string.IsNullOrWhiteSpace(template))
             {
                 ViewBag.searchTemplate = template;
-                return View(Storage.Articles.Where(article => article.Text.Contains(template, StringComparison.OrdinalIgnoreCase) || article.Attributes.Contains(template, StringComparer.CurrentCultureIgnoreCase)).Select(x => x));
+                return View(Storage.Articles.Where(article => article.Text.Contains(template, StringComparison.OrdinalIgnoreCase) || article.Attributes.Contains(template, StringComparer.CurrentCultureIgnoreCase)).Select(x => x).AsQueryable());
             }
             //ViewBag.TextField = dataManager.TextFields.GetTextFieldByCodeWord("PageServices");
             //ViewBag.CurrentPageNumber = num ?? 0;
@@ -48,7 +48,7 @@ namespace WebCrawler.Controllers
             //{
             //    return PartialView("_Items", GetItemsPage(page));
             //}
-            return View(Enumerable.Empty<Article>());
+            return View(Enumerable.Empty<Article>().AsQueryable());
         }
     }
 }
