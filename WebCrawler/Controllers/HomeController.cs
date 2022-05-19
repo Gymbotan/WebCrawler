@@ -82,7 +82,10 @@ namespace WebCrawler.Controllers
                 rawPageText = rawPageText.Substring(rawPageText.IndexOf("document.oncopy"));
                 Parser.Parse(article, rawPageText);
 
-                Storage.Articles.Add(article);
+                if (Storage.Articles.Find(art => art.Title.ToLower() == article.Title.ToLower()) == null)
+                {
+                    Storage.Articles.Add(article);
+                }
             }
         }
 

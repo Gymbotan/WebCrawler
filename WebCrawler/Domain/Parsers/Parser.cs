@@ -128,21 +128,22 @@ namespace WebCrawler.Domain.Parsers
         private static void FindAttributes(Article article)
         {
             //Pullenti.Sdk.InitializeAll(); // Инициализация
-
-            PersonAnalyzer anPer = new();
-            GeoAnalyzer anGeo = new();
-            OrganizationAnalyzer anOrg = new();
-            Processor processor = ProcessorService.CreateEmptyProcessor();
-            
-            processor.AddAnalyzer(anPer);
-            processor.AddAnalyzer(anGeo);
-            processor.AddAnalyzer(anOrg);
-
-            AnalysisResult result = processor.Process(new SourceOfAnalysis(article.Text));
-            // получили выделенные сущности
-            foreach (Referent entity in result.Entities)
+            using (Processor processor = ProcessorService.CreateEmptyProcessor())
             {
-                article.Attributes.Add(entity.ToString());
+                PersonAnalyzer anPer = new();
+                GeoAnalyzer anGeo = new();
+                OrganizationAnalyzer anOrg = new();
+
+                processor.AddAnalyzer(anPer);
+                processor.AddAnalyzer(anGeo);
+                processor.AddAnalyzer(anOrg);
+
+                AnalysisResult result = processor.Process(new SourceOfAnalysis(article.Text));
+                // получили выделенные сущности
+                foreach (Referent entity in result.Entities)
+                {
+                    article.Attributes.Add(entity.ToString());
+                }
             }
         }
     }
