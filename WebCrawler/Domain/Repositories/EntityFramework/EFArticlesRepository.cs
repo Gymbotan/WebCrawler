@@ -50,15 +50,15 @@ namespace WebCrawler.Domain.Repositories.EntityFramework
             context.SaveChanges();
         }
 
-        /// <summary>
-        /// Delete article with choosen id.
-        /// </summary>
-        /// <param name="id">Id of the article.</param>
-        public void DeleteArticle(Guid id)
-        {
-            context.Articles.Remove(new Article { Id = id });
-            context.SaveChanges();
-        }
+        ///// <summary>
+        ///// Delete article with choosen id.
+        ///// </summary>
+        ///// <param name="id">Id of the article.</param>
+        //public void DeleteArticle(Guid id)
+        //{
+        //    context.Articles.Remove(new Article { Id = id });
+        //    context.SaveChanges();
+        //}
 
         /// <summary>
         /// Get specific article with choosen id.
@@ -87,6 +87,17 @@ namespace WebCrawler.Domain.Repositories.EntityFramework
         public int GetAmountOfArticles()
         {
             return context.Articles.Count();
+        }
+
+        public IQueryable<Article> GetArticlesByTemplate(string template)
+        {
+            return context.Articles.Where(article => article.Text.Contains(template, StringComparison.OrdinalIgnoreCase) || 
+                article.Attributes.Contains(template, StringComparer.CurrentCultureIgnoreCase)).Select(x => x);
+        }
+
+        public bool Contains(Article entity)
+        {
+            return context.Articles.Any(article => article.Title.ToLower() == entity.Title.ToLower());
         }
     }
 }

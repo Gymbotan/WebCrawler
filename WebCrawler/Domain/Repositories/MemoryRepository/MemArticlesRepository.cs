@@ -9,24 +9,37 @@ namespace WebCrawler.Domain.Repositories.MemoryRepository
 {
     public class MemArticlesRepository : IArticlesRepository
     {
+        private readonly List<Article> Articles = new();
+
+        public bool Contains(Article entity)
+        {
+            return Articles.Find(article => article.Title.ToLower() == entity.Title.ToLower()) != null;
+        }
+
         public int GetAmountOfArticles()
         {
-            throw new NotImplementedException();
+            return Articles.Count;
         }
 
         public Article GetArticleById(Guid id)
         {
-            throw new NotImplementedException();
+            return Articles.FirstOrDefault(x => x.Id == id);
         }
 
         public IQueryable<Article> GetArticles()
         {
-            throw new NotImplementedException();
+            return Articles.AsQueryable();
+        }
+
+        public IQueryable<Article> GetArticlesByTemplate(string template)
+        {
+            return Articles.Where(article => article.Text.Contains(template, StringComparison.OrdinalIgnoreCase) || 
+                article.Attributes.Contains(template, StringComparer.CurrentCultureIgnoreCase)).Select(x => x).AsQueryable();
         }
 
         public void SaveArticle(Article entity)
         {
-            throw new NotImplementedException();
+            Articles.Add(entity);
         }
     }
 }

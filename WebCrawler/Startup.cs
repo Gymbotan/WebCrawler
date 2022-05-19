@@ -14,6 +14,7 @@ using WebCrawler.Domain.Repositories.Interfaces;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 using Npgsql.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using WebCrawler.Domain.Repositories.MemoryRepository;
 
 namespace WebCrawler
 {
@@ -37,10 +38,11 @@ namespace WebCrawler
                 .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
 
             // Fill a DI-container
-            services.AddTransient<IArticlesRepository, EFArticlesRepository>();
+            //services.AddTransient<IArticlesRepository, EFArticlesRepository>();
+            services.AddSingleton<IArticlesRepository, MemArticlesRepository>();
 
             // Connect to DataBase
-            services.AddDbContext<AppDbContext>(x => x.UseNpgsql(Configuration["ConnectionString"]));
+            //services.AddDbContext<AppDbContext>(x => x.UseNpgsql(Configuration["ConnectionString"]));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

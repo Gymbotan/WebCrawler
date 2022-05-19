@@ -18,6 +18,12 @@ namespace WebCrawler.Domain.Repositories.Interfaces
         IQueryable<Article> GetArticles();
 
         /// <summary>
+        /// Get all the articles.
+        /// </summary>
+        /// <returns>All the articles.</returns>
+        IQueryable<Article> GetArticlesByTemplate(string template);
+
+        /// <summary>
         /// Get specific article with choosen id.
         /// </summary>
         /// <param name="id">Id of the article.</param>
@@ -41,5 +47,12 @@ namespace WebCrawler.Domain.Repositories.Interfaces
         /// </summary>
         /// <returns>Amount of articles.</returns>
         public int GetAmountOfArticles();
+
+        /// <summary>
+        /// Checks is repository contains article.
+        /// </summary>
+        /// <param name="entity">Article.</param>
+        /// <returns></returns>
+        public bool Contains(Article entity);
     }
 }
