@@ -50,9 +50,9 @@ namespace WebCrawler.Controllers
                 .CreateLogger();
 
             //Log.Logger.Information("Demo starting up!");
-            int before = Storage.repository.GetAmountOfArticles();
+            int before = Storage.articlesRepository.GetAmountOfArticles();
             await DemoSimpleCrawler(siteUrl, amount);
-            int after = Storage.repository.GetAmountOfArticles();
+            int after = Storage.articlesRepository.GetAmountOfArticles();
             ViewBag.AmountOfFindedArticles = after - before;
             return View();
         }
@@ -90,9 +90,9 @@ namespace WebCrawler.Controllers
                 rawPageText = rawPageText.Substring(rawPageText.IndexOf("document.oncopy"));
                 Parser.Parse(article, rawPageText);
 
-                if (!Storage.repository.Contains(article))
+                if (!Storage.articlesRepository.Contains(article))
                 {
-                    Storage.repository.SaveArticle(article);
+                    Storage.articlesRepository.SaveArticle(article);
                 }
             }
         }

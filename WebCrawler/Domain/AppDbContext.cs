@@ -22,6 +22,16 @@ namespace WebCrawler.Domain
         public DbSet<Article> Articles { get; set; }
 
         /// <summary>
+        /// Table for PersonAttributes.
+        /// </summary>
+        public DbSet<PersonAttribute> PersonAttributes { get; set; }
+
+        /// <summary>
+        /// Table for GeoAttributes.
+        /// </summary>
+        public DbSet<GeoAttribute> GeoAttributes { get; set; }
+
+        /// <summary>
         /// DataBase creating.
         /// </summary>
         /// <param name="builder">Model Builder.</param>

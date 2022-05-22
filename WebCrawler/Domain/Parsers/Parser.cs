@@ -24,8 +24,6 @@ namespace WebCrawler.Domain.Parsers
                 throw new ArgumentNullException(nameof(rawText));
             }
 
-            article.Attributes = new List<string>();
-
             article.Title = ParseTitle(rawText);
 
             article.Text = ParseText(rawText);
@@ -142,7 +140,72 @@ namespace WebCrawler.Domain.Parsers
                 // получили выделенные сущности
                 foreach (Referent entity in result.Entities)
                 {
-                    article.Attributes.Add(entity.ToString());
+                    if (entity is PersonReferent)
+                    {
+                        PersonAttribute attribute = new();
+                        attribute.FirstName = (string)entity.GetSlotValue("FIRSTNAME");
+                        attribute.LastName = (string)entity.GetSlotValue("LASTNAME");
+                        attribute.MiddleName = (string)entity.GetSlotValue("MIDDLENAME");
+                        if (Storage.personAttributesRepository.Contains(attribute))
+                        {
+                            attribute = Storage.personAttributesRepository.GetPersonAttributeByFIO(attribute);
+                            attribute.Owners.Add(article);
+                        }
+                        else
+                        {
+                            attribute.Id = Guid.NewGuid();
+                            attribute.Gender = (entity as PersonReferent).IsMale;
+                            if ((entity as PersonReferent).Age > 0)
+                            {
+                                attribute.Age = (entity as PersonReferent).Age;
+                            }
+                            attribute.Owners.Add(article);
+                        }
+                        article.PersonAttributes.Add(attribute);
+                        Storage.personAttributesRepository.SavePersonAtribute(attribute);
+                    }
+                    
+                    if(entity is GeoReferent)
+                    {
+                        GeoAttribute attribute = new();
+                        attribute.Name = (string)entity.GetSlotValue("NAME");
+                        attribute.Type = (string)entity.GetSlotValue("TYPE");
+                        if (Storage.geoAttributesRepository.Contains(attribute))
+                        {
+                            attribute = Storage.geoAttributesRepository.GetGeoAttributeByNameAndType(attribute);
+                            attribute.Owners.Add(article);
+                        }
+                        else
+                        {
+                            attribute.Id = Guid.NewGuid();
+                            attribute.Alpha2 = (entity as GeoReferent).Alpha2;
+                            attribute.Owners.Add(article);
+                        }
+                        article.GeoAttributes.Add(attribute);
+                        Storage.geoAttributesRepository.SaveGeoAtribute(attribute);
+                    }
+
+                    if (entity is OrganizationReferent)
+                    {
+                        OrganizationAttribute attribute = new();
+                        attribute.Name = (string)entity.GetSlotValue("NAME");
+                        attribute.Type = (string)entity.GetSlotValue("TYPE");
+                        if (Storage.organizationAttributesRepository.Contains(attribute))
+                        {
+                            attribute = Storage.organizationAttributesRepository.GetOrganizationAttributeByName(attribute);
+                        }
+                        else
+                        {
+                            attribute.Id = Guid.NewGuid();
+                            attribute.INN = (entity as OrganizationReferent).INN;
+                            attribute.Geo = (string)entity.GetSlotValue("GEO");
+                        }
+                        attribute.Owners.Add(article);
+                        article.OrganizationAttributes.Add(attribute);
+                        Storage.organizationAttributesRepository.SaveOrganizationAttribute(attribute);
+                    }
+
+                    //article.Attributes.Add(entity.ToString());
                 }
             }
         }

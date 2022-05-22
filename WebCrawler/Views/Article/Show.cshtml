@@ -20,12 +20,39 @@
     @Html.Raw(Model.Text)
 </div>
 <div>
-    <h3>Найденные аттрибуты статьи:</h3>
+    @*<h3>Все найденные аттрибуты:</h3>
     @foreach (var attr in Model.Attributes)
     {
         <h4>
             <a asp-area="" asp-controller="Article" asp-action="Search" asp-route-template="@attr">
                 @attr
+            </a>
+        </h4>
+    }*@
+    <h3>Найденные аттрибуты персоны:</h3>
+    @foreach (var attr in Model.PersonAttributes)
+    {
+        <h4>
+            <a asp-area="" asp-controller="Article" asp-action="PAttribute" asp-route-id="@attr.Id">
+                @attr.FirstName @attr.LastName
+            </a>
+        </h4>
+    }
+    <h3>Найденные аттрибуты географические объекты:</h3>
+    @foreach (var attr in Model.GeoAttributes)
+    {
+        <h4>
+            <a asp-area="" asp-controller="Article" asp-action="GAttribute" asp-route-id="@attr.Id">
+                @attr.Type  @attr.Name
+            </a>
+        </h4>
+    }
+    <h3>Найденные аттрибуты организации:</h3>
+    @foreach (var attr in Model.OrganizationAttributes)
+    {
+        <h4>
+            <a asp-area="" asp-controller="Article" asp-action="OAttribute" asp-route-id="@attr.Id">
+                @attr.Name
             </a>
         </h4>
     }

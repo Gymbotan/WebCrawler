@@ -7,7 +7,7 @@ using WebCrawler.Domain.Repositories.Interfaces;
 
 namespace WebCrawler.Domain.Repositories.MemoryRepository
 {
-    public class MemArticlesRepository : IArticlesRepository
+    public class MemoryArticlesRepository : IArticlesRepository
     {
         private readonly List<Article> Articles = new();
 
@@ -33,8 +33,7 @@ namespace WebCrawler.Domain.Repositories.MemoryRepository
 
         public IQueryable<Article> GetArticlesByTemplate(string template)
         {
-            return Articles.Where(article => article.Text.Contains(template, StringComparison.OrdinalIgnoreCase) || 
-                article.Attributes.Contains(template, StringComparer.CurrentCultureIgnoreCase)).Select(x => x).AsQueryable();
+            return Articles.Where(article => article.Text.Contains(template, StringComparison.OrdinalIgnoreCase)).Select(x => x).AsQueryable();
         }
 
         public void SaveArticle(Article entity)

@@ -7,7 +7,8 @@
     <ul class="links">
         <li @*class="active"*@><a asp-controller="Home" asp-action="Index">Главная</a></li>
         <li><a asp-controller="Article" asp-action="Index" asp-route-id="@string.Empty">Все статьи</a></li>
-        <li><a asp-controller="Article" asp-action="Search">Поиск статей</a></li>
+        <li><a asp-controller="Article" asp-action="Search">Поиск по тексту</a></li>
+        <li><a asp-controller="Article" asp-action="AllAttributes">Поиск по атрибутам</a></li>
         <li><a asp-controller="Home" asp-action="Contacts">Контакты</a></li>
     </ul>
     @*<ul class="icons">

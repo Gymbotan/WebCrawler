@@ -8,6 +8,14 @@ namespace WebCrawler.Domain.Entities
 {
     public class Article
     {
+        public Article()
+        {
+            //Attributes = new();
+            PersonAttributes = new();
+            GeoAttributes = new();
+            OrganizationAttributes = new();
+        }
+
         /// <summary>
         /// Entity's id.
         /// </summary>
@@ -39,10 +47,25 @@ namespace WebCrawler.Domain.Entities
         /// </summary>
         public DateTime Date { get; set; }
 
+        ///// <summary>
+        ///// Article's attributes.
+        ///// </summary>
+        //public List<string> Attributes { get; set; }
+
         /// <summary>
-        /// Article's attributes.
+        /// Article's person attributes.
         /// </summary>
-        public List<string> Attributes { get; set; }
+        public List<PersonAttribute> PersonAttributes { get; set; }
+
+        /// <summary>
+        /// Article's geo attributes.
+        /// </summary>
+        public List<GeoAttribute> GeoAttributes { get; set; }
+
+        /// <summary>
+        /// Article's organization attributes.
+        /// </summary>
+        public List<OrganizationAttribute> OrganizationAttributes { get; set; }
 
         public override string ToString()
         {

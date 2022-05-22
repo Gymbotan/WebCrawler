@@ -1,0 +1,29 @@
+﻿<div>
+    <h3>Все имеющиеся аттрибуты персон:</h3>
+    @foreach (var attr in Storage.personAttributesRepository.GetPersonAttributes())
+    {
+        <h4>
+            <a asp-area="" asp-controller="Article" asp-action="PAttribute" asp-route-id="@attr.Id">
+                @attr.FirstName @attr.LastName
+            </a>
+        </h4>
+    }
+    <h3>Все имеющиеся географические аттрибуты:</h3>
+    @foreach (var attr in Storage.geoAttributesRepository.GetGeoAttributes())
+    {
+        <h4>
+            <a asp-area="" asp-controller="Article" asp-action="GAttribute" asp-route-id="@attr.Id">
+                @attr.Type @attr.Name
+            </a>
+        </h4>
+    }
+    <h3>Все имеющиеся аттрибуты организаций:</h3>
+    @foreach (var attr in Storage.organizationAttributesRepository.GetOrganizationAttributes())
+    {
+        <h4>
+            <a asp-area="" asp-controller="Article" asp-action="OAttribute" asp-route-id="@attr.Id">
+                @attr.Name
+            </a>
+        </h4>
+    }
+</div>

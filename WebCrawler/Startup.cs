@@ -39,7 +39,7 @@ namespace WebCrawler
 
             // Fill a DI-container
             //services.AddTransient<IArticlesRepository, EFArticlesRepository>();
-            services.AddSingleton<IArticlesRepository, MemArticlesRepository>();
+            services.AddSingleton<IArticlesRepository, MemoryArticlesRepository>();
 
             // Connect to DataBase
             //services.AddDbContext<AppDbContext>(x => x.UseNpgsql(Configuration["ConnectionString"]));

@@ -91,8 +91,7 @@ namespace WebCrawler.Domain.Repositories.EntityFramework
 
         public IQueryable<Article> GetArticlesByTemplate(string template)
         {
-            return context.Articles.Where(article => article.Text.Contains(template, StringComparison.OrdinalIgnoreCase) || 
-                article.Attributes.Contains(template, StringComparer.CurrentCultureIgnoreCase)).Select(x => x);
+            return context.Articles.Where(article => article.Text.Contains(template, StringComparison.OrdinalIgnoreCase)).Select(x => x);
         }
 
         public bool Contains(Article entity)

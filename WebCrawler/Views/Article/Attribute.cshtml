@@ -1,0 +1,13 @@
+﻿@model ArticleAttribute
+
+<div>
+    <h3>Все статьи, связанные с выбранным аттрибутом:</h3>
+    @foreach (var article in Model.Owners)
+    {
+        <h4>
+            <a asp-area="" asp-controller="Article" asp-action="Show" asp-route-id="@article.Id">
+                @article.Title
+            </a>
+        </h4>
+    }
+</div>
