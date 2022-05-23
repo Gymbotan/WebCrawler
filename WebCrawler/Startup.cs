@@ -15,6 +15,9 @@ using Npgsql.EntityFrameworkCore.PostgreSQL;
 using Npgsql.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using WebCrawler.Domain.Repositories.MemoryRepository;
+using WebCrawler.Domain.Crawlers;
+using WebCrawler.Domain.Parsers;
+using WebCrawler.Domain.AttributeFinder;
 
 namespace WebCrawler
 {
@@ -50,6 +53,9 @@ namespace WebCrawler
             services.AddSingleton<IOrganizationAttributesRepository, MemoryOrganizationAttributesRepository>();
             services.AddSingleton<IGeoAttributesRepository, MemoryGeoAttributesRepository>();
 
+            services.AddTransient<MyCrawler>();
+            services.AddTransient<MyParser>();
+            services.AddTransient<MyAttributeFinder>();
             // Connect to DataBase
             //services.AddDbContext<AppDbContext>(x => x.UseNpgsql(Configuration["ConnectionString"]));
         }
