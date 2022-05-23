@@ -1,6 +1,7 @@
-﻿<div>
+﻿@model Storage
+<div>
     <h3>Все имеющиеся аттрибуты персон:</h3>
-    @foreach (var attr in Storage.personAttributesRepository.GetPersonAttributes())
+    @foreach (var attr in Model.personAttributesRepository.GetPersonAttributes())
     {
         <h4>
             <a asp-area="" asp-controller="Article" asp-action="PAttribute" asp-route-id="@attr.Id">
@@ -9,7 +10,7 @@
         </h4>
     }
     <h3>Все имеющиеся географические аттрибуты:</h3>
-    @foreach (var attr in Storage.geoAttributesRepository.GetGeoAttributes())
+    @foreach (var attr in Model.geoAttributesRepository.GetGeoAttributes())
     {
         <h4>
             <a asp-area="" asp-controller="Article" asp-action="GAttribute" asp-route-id="@attr.Id">
@@ -18,7 +19,7 @@
         </h4>
     }
     <h3>Все имеющиеся аттрибуты организаций:</h3>
-    @foreach (var attr in Storage.organizationAttributesRepository.GetOrganizationAttributes())
+    @foreach (var attr in Model.organizationAttributesRepository.GetOrganizationAttributes())
     {
         <h4>
             <a asp-area="" asp-controller="Article" asp-action="OAttribute" asp-route-id="@attr.Id">

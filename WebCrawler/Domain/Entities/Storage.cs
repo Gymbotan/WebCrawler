@@ -7,15 +7,14 @@ using WebCrawler.Domain.Repositories.MemoryRepository;
 
 namespace WebCrawler.Domain.Entities
 {
-    public static class Storage
+    public class Storage
     {
-        //public readonly static List<Article> Articles = new();
-        public readonly static IArticlesRepository articlesRepository = new MemoryArticlesRepository();
+        public readonly IArticlesRepository articlesRepository = new MemoryArticlesRepository();
 
-        public readonly static IPersonAttributesRepository personAttributesRepository = new MemoryPersonAttributesRepository();
+        public readonly IPersonAttributesRepository personAttributesRepository = new MemoryPersonAttributesRepository();
 
-        public readonly static IGeoAttributesRepository geoAttributesRepository = new MemoryGeoAttributesRepository();
+        public readonly IGeoAttributesRepository geoAttributesRepository = new MemoryGeoAttributesRepository();
 
-        public readonly static IOrganizationAttributesRepository organizationAttributesRepository = new MemoryOrganizationAttributesRepository();
+        public readonly IOrganizationAttributesRepository organizationAttributesRepository = new MemoryOrganizationAttributesRepository();
     }
 }

@@ -18,6 +18,7 @@ using WebCrawler.Domain.Repositories.MemoryRepository;
 using WebCrawler.Domain.Crawlers;
 using WebCrawler.Domain.Parsers;
 using WebCrawler.Domain.AttributeFinder;
+using WebCrawler.Domain.Entities;
 
 namespace WebCrawler
 {
@@ -53,6 +54,7 @@ namespace WebCrawler
             services.AddSingleton<IOrganizationAttributesRepository, MemoryOrganizationAttributesRepository>();
             services.AddSingleton<IGeoAttributesRepository, MemoryGeoAttributesRepository>();
 
+            services.AddSingleton<Storage>();
             services.AddTransient<MyCrawler>();
             services.AddTransient<MyParser>();
             services.AddTransient<MyAttributeFinder>();

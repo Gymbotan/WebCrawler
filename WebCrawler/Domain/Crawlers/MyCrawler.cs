@@ -32,24 +32,9 @@ namespace WebCrawler.Domain.Crawlers
 
             string url = (siteUrl.Trim().StartsWith("https://") || siteUrl.Trim().StartsWith("http://")) ? siteUrl.Trim() : "https://" + siteUrl.Trim();
 
-            //await crawler.CrawlAsync(new Uri("https://" + siteUrl.Trim()));
             await crawler.CrawlAsync(new Uri(url));
             return articles;
         }
-
-        //private static async Task DemoSimpleCrawler(string siteUrl, int amount)
-        //{
-        //    var config = new CrawlConfiguration
-        //    {
-        //        MaxPagesToCrawl = amount, //Only crawl 'amount' pages
-        //        MinCrawlDelayPerDomainMilliSeconds = 10 //Wait this many millisecs between requests
-        //    };
-        //    var crawler = new PoliteWebCrawler(config);
-
-        //    crawler.PageCrawlCompleted += PageCrawlCompleted;//Several events available...
-
-        //    await crawler.CrawlAsync(new Uri("https://" + siteUrl.Trim()));
-        //}
 
         private void PageCrawlCompleted(object sender, PageCrawlCompletedArgs e)
         {   
