@@ -125,7 +125,6 @@ namespace WebCrawler.Domain.Parsers
 
         private static void FindAttributes(Article article)
         {
-            //Pullenti.Sdk.InitializeAll(); // Инициализация
             using (Processor processor = ProcessorService.CreateEmptyProcessor())
             {
                 PersonAnalyzer anPer = new();
@@ -142,72 +141,85 @@ namespace WebCrawler.Domain.Parsers
                 {
                     if (entity is PersonReferent)
                     {
-                        PersonAttribute attribute = new();
-                        attribute.FirstName = (string)entity.GetSlotValue("FIRSTNAME");
-                        attribute.LastName = (string)entity.GetSlotValue("LASTNAME");
-                        attribute.MiddleName = (string)entity.GetSlotValue("MIDDLENAME");
-                        if (Storage.personAttributesRepository.Contains(attribute))
-                        {
-                            attribute = Storage.personAttributesRepository.GetPersonAttributeByFIO(attribute);
-                            attribute.Owners.Add(article);
-                        }
-                        else
-                        {
-                            attribute.Id = Guid.NewGuid();
-                            attribute.Gender = (entity as PersonReferent).IsMale;
-                            if ((entity as PersonReferent).Age > 0)
-                            {
-                                attribute.Age = (entity as PersonReferent).Age;
-                            }
-                            attribute.Owners.Add(article);
-                        }
-                        article.PersonAttributes.Add(attribute);
-                        Storage.personAttributesRepository.SavePersonAtribute(attribute);
+                        SaveAsPersonalAttribute(article, entity);
                     }
-                    
-                    if(entity is GeoReferent)
+
+                    if (entity is GeoReferent)
                     {
-                        GeoAttribute attribute = new();
-                        attribute.Name = (string)entity.GetSlotValue("NAME");
-                        attribute.Type = (string)entity.GetSlotValue("TYPE");
-                        if (Storage.geoAttributesRepository.Contains(attribute))
-                        {
-                            attribute = Storage.geoAttributesRepository.GetGeoAttributeByNameAndType(attribute);
-                            attribute.Owners.Add(article);
-                        }
-                        else
-                        {
-                            attribute.Id = Guid.NewGuid();
-                            attribute.Alpha2 = (entity as GeoReferent).Alpha2;
-                            attribute.Owners.Add(article);
-                        }
-                        article.GeoAttributes.Add(attribute);
-                        Storage.geoAttributesRepository.SaveGeoAtribute(attribute);
+                        SaveAsGeoAttribute(article, entity);
                     }
 
                     if (entity is OrganizationReferent)
                     {
-                        OrganizationAttribute attribute = new();
-                        attribute.Name = (string)entity.GetSlotValue("NAME");
-                        attribute.Type = (string)entity.GetSlotValue("TYPE");
-                        if (Storage.organizationAttributesRepository.Contains(attribute))
-                        {
-                            attribute = Storage.organizationAttributesRepository.GetOrganizationAttributeByName(attribute);
-                        }
-                        else
-                        {
-                            attribute.Id = Guid.NewGuid();
-                            attribute.INN = (entity as OrganizationReferent).INN;
-                            attribute.Geo = (string)entity.GetSlotValue("GEO");
-                        }
-                        attribute.Owners.Add(article);
-                        article.OrganizationAttributes.Add(attribute);
-                        Storage.organizationAttributesRepository.SaveOrganizationAttribute(attribute);
+                        SaveAsOrganizationAttribute(article, entity);
                     }
-
-                    //article.Attributes.Add(entity.ToString());
                 }
             }
+        }
+
+        private static void SaveAsOrganizationAttribute(Article article, Referent entity)
+        {
+            OrganizationAttribute attribute = new();
+            attribute.Name = (string)entity.GetSlotValue("NAME");
+            attribute.Type = (string)entity.GetSlotValue("TYPE");
+            if (Storage.organizationAttributesRepository.Contains(attribute))
+            {
+                attribute = Storage.organizationAttributesRepository.GetOrganizationAttributeByName(attribute);
+            }
+            else
+            {
+                attribute.Id = Guid.NewGuid();
+                attribute.INN = (entity as OrganizationReferent).INN;
+                attribute.Geo = (string)entity.GetSlotValue("GEO");
+            }
+            attribute.Owners.Add(article);
+            article.OrganizationAttributes.Add(attribute);
+            Storage.organizationAttributesRepository.SaveOrganizationAttribute(attribute);
+        }
+
+        private static void SaveAsGeoAttribute(Article article, Referent entity)
+        {
+            GeoAttribute attribute = new();
+            attribute.Name = (string)entity.GetSlotValue("NAME");
+            attribute.Type = (string)entity.GetSlotValue("TYPE");
+            if (Storage.geoAttributesRepository.Contains(attribute))
+            {
+                attribute = Storage.geoAttributesRepository.GetGeoAttributeByNameAndType(attribute);
+                attribute.Owners.Add(article);
+            }
+            else
+            {
+                attribute.Id = Guid.NewGuid();
+                attribute.Alpha2 = (entity as GeoReferent).Alpha2;
+                attribute.Owners.Add(article);
+            }
+            article.GeoAttributes.Add(attribute);
+            Storage.geoAttributesRepository.SaveGeoAtribute(attribute);
+        }
+
+        private static void SaveAsPersonalAttribute(Article article, Referent entity)
+        {
+            PersonAttribute attribute = new();
+            attribute.FirstName = (string)entity.GetSlotValue("FIRSTNAME");
+            attribute.LastName = (string)entity.GetSlotValue("LASTNAME");
+            attribute.MiddleName = (string)entity.GetSlotValue("MIDDLENAME");
+            if (Storage.personAttributesRepository.Contains(attribute))
+            {
+                attribute = Storage.personAttributesRepository.GetPersonAttributeByFIO(attribute);
+                attribute.Owners.Add(article);
+            }
+            else
+            {
+                attribute.Id = Guid.NewGuid();
+                attribute.Gender = (entity as PersonReferent).IsMale;
+                if ((entity as PersonReferent).Age > 0)
+                {
+                    attribute.Age = (entity as PersonReferent).Age;
+                }
+                attribute.Owners.Add(article);
+            }
+            article.PersonAttributes.Add(attribute);
+            Storage.personAttributesRepository.SavePersonAtribute(attribute);
         }
     }
 }

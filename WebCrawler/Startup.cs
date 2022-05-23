@@ -25,7 +25,8 @@ namespace WebCrawler
         public Startup(IConfiguration configuration)
         {
             this.Configuration = configuration;
-            Pullenti.Sdk.InitializeAll();
+
+            Pullenti.Sdk.InitializeAll(); // Инициализация PullEnti
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -37,9 +38,17 @@ namespace WebCrawler
                 // Совместимость в Asp.Net Core 3.0
                 .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
 
-            // Fill a DI-container
+            // Fill a DI-container for EF realization
             //services.AddTransient<IArticlesRepository, EFArticlesRepository>();
+            //services.AddSingleton<IPersonAttributesRepository, EFPersonAttributesRepository>();
+            //services.AddSingleton<IOrganizationAttributesRepository, EFOrganizationAttributesRepository>();
+            //services.AddSingleton<IGeoAttributesRepository, EFGeoAttributesRepository>();
+
+            // Fill a DI-container for inMemory realization
             services.AddSingleton<IArticlesRepository, MemoryArticlesRepository>();
+            services.AddSingleton<IPersonAttributesRepository, MemoryPersonAttributesRepository>();
+            services.AddSingleton<IOrganizationAttributesRepository, MemoryOrganizationAttributesRepository>();
+            services.AddSingleton<IGeoAttributesRepository, MemoryGeoAttributesRepository>();
 
             // Connect to DataBase
             //services.AddDbContext<AppDbContext>(x => x.UseNpgsql(Configuration["ConnectionString"]));
