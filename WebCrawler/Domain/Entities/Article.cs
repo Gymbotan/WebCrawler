@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebCrawler.Domain.Entities
 {
+    [Serializable]
     public class Article
     {
         public Article()

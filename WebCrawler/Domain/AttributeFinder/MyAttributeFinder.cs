@@ -12,11 +12,12 @@ namespace WebCrawler.Domain.AttributeFinder
 {
     public class MyAttributeFinder
     {
-        public (List<PersonAttribute>, List<GeoAttribute>, List<OrganizationAttribute>) FindAttributes(string text)
+        public TextAttributes FindAttributes(string text)
         {
-            List<PersonAttribute> personalAttributes = new();
-            List<GeoAttribute> geoAttributes = new();
-            List<OrganizationAttribute> organizationAttributes = new();
+            //List<PersonAttribute> personalAttributes = new();
+            //List<GeoAttribute> geoAttributes = new();
+            //List<OrganizationAttribute> organizationAttributes = new();
+            TextAttributes textAttributes = new();
 
             using (Processor processor = ProcessorService.CreateEmptyProcessor())
             {
@@ -30,22 +31,22 @@ namespace WebCrawler.Domain.AttributeFinder
                 {
                     if (entity is PersonReferent)
                     {
-                        SaveAsPersonalAttribute(personalAttributes, entity);
+                        SaveAsPersonalAttribute(textAttributes.PersonalAttributes, entity);
                     }
 
                     if (entity is GeoReferent)
                     {
-                        SaveAsGeoAttribute(geoAttributes, entity);
+                        SaveAsGeoAttribute(textAttributes.GeoAttributes, entity);
                     }
 
                     if (entity is OrganizationReferent)
                     {
-                        SaveAsOrganizationAttribute(organizationAttributes, entity);
+                        SaveAsOrganizationAttribute(textAttributes.OrganizationAttributes, entity);
                     }
                 }
             }
 
-            return (personalAttributes, geoAttributes, organizationAttributes);
+            return textAttributes;
         }
 
         private void SaveAsOrganizationAttribute(List<OrganizationAttribute> organizationAttributes, Referent entity)

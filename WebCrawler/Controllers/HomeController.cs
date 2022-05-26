@@ -14,6 +14,8 @@ using WebCrawler.Domain.Parsers;
 using WebCrawler.Domain.Repositories.Interfaces;
 using WebCrawler.Domain.Crawlers;
 using WebCrawler.Domain.AttributeFinder;
+using System.Net.Http;
+using System.Text.Json;
 
 namespace WebCrawler.Controllers
 {
@@ -23,13 +25,17 @@ namespace WebCrawler.Controllers
         private readonly MyCrawler crawler;
         private readonly MyParser parser;
         private readonly MyAttributeFinder finder;
+        private readonly HttpClient client;
+        private readonly string baseAddress = "https://localhost:44386/";
 
-        public HomeController(Storage storage, MyCrawler crawler, MyParser parser, MyAttributeFinder finder)
+        public HomeController(Storage storage, MyCrawler crawler, MyParser parser, MyAttributeFinder finder, HttpClient client)
         {
             this.storage = storage;
             this.crawler = crawler;
             this.parser = parser;
             this.finder = finder;
+            this.client = client;
+            client.BaseAddress = new Uri(baseAddress);
         }
 
         public IActionResult Index()
@@ -53,18 +59,34 @@ namespace WebCrawler.Controllers
             ViewBag.siteUrl = siteUrl;
             int before = storage.articlesRepository.GetAmountOfArticles();
 
-            List<Article> articles = await crawler.Crawl(siteUrl, amount);
+            // Request to API Crawler
+            //var requestResult = await client.GetStringAsync($"crawler?amount={amount}");
+            var requestResult = await client.GetStringAsync($"Crawler?url={siteUrl}&amount={amount}");
+            JsonSerializerOptions options = new();
+            options.PropertyNameCaseInsensitive = true;
+            List<Article> articles = JsonSerializer.Deserialize<List<Article>>(requestResult, options);
+
+            //List <Article> articles = await crawler.Crawl(siteUrl, amount);
             for (int i = 0; i < articles.Count; i++)
             {
-                var result = parser.Parse(articles[i].FullText);
-                articles[i].Title = result.Item1;
-                articles[i].Text = result.Item2;
-                articles[i].Date = result.Item3;
+                // Request to API Parser
+                //requestResult = await client.GetStringAsync($"Parser?text={articles[i].FullText}");
+                //var parseResult = JsonSerializer.Deserialize<RawTextParams>(requestResult, options);
+
+                var parseResult = parser.Parse(articles[i].FullText);
+                articles[i].Title = parseResult.Title;
+                articles[i].Text = parseResult.Text;
+                articles[i].Date = parseResult.Date;
                 if (!storage.articlesRepository.Contains(articles[i]))
                 {
                     articles[i].Id = Guid.NewGuid();
+
+                    // Request to API Attributes
+                    //requestResult = await client.GetStringAsync($"Attributes?text={articles[i].Text}");
+                    //var attrResult = JsonSerializer.Deserialize<TextAttributes>(requestResult, options);
+
                     var attrResult = finder.FindAttributes(articles[i].Text);
-                    SaveAttributes(articles[i], attrResult.Item1, attrResult.Item2, attrResult.Item3);
+                    SaveAttributes(articles[i], attrResult.PersonalAttributes, attrResult.GeoAttributes, attrResult.OrganizationAttributes);
                     storage.articlesRepository.SaveArticle(articles[i]);
                 }
             }

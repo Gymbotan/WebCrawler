@@ -12,22 +12,26 @@ namespace WebCrawler.Domain.Parsers
 {
     public class MyParser
     {
-        public (string, string, DateTime) Parse(string rawText)
+        public RawTextParams Parse(string rawText)
         {
             if (string.IsNullOrWhiteSpace(rawText))
             {
                 throw new ArgumentNullException(nameof(rawText));
             }
 
-            rawText = rawText.Substring(rawText.IndexOf("document.oncopy"));
+            if (rawText.Contains("document.oncopy"))
+            {
+                rawText = rawText.Substring(rawText.IndexOf("document.oncopy"));
+            }
 
-            string title = ParseTitle(rawText);
+            RawTextParams rawTextParams = new();
+            rawTextParams.Title = ParseTitle(rawText);
 
-            string text = ParseText(rawText);
+            rawTextParams.Text = ParseText(rawText);
 
-            DateTime date = ParseDate(rawText);
+            rawTextParams.Date = ParseDate(rawText);
 
-            return (title, text, date);
+            return rawTextParams;
         }
 
         private string ParseTitle(string rawText)
@@ -38,10 +42,17 @@ namespace WebCrawler.Domain.Parsers
             }
 
             string flag = "<h1 class=\"entry-title\" itemprop=\"headline\">"; // title tag
-            int position = rawText.IndexOf(flag);
-            string title = rawText.Substring(position + 44);
-            title = title.Remove(title.IndexOf("</h1>"));
-            return ClearText(title);
+            if (rawText.Contains(flag))
+            {
+                int position = rawText.IndexOf(flag);
+                string title = rawText.Substring(position + 44);
+                title = title.Remove(title.IndexOf("</h1>"));
+                return ClearText(title);
+            }
+            else
+            {
+                return string.Empty;
+            }
         }
 
         private string ParseText(string rawText)
@@ -52,15 +63,23 @@ namespace WebCrawler.Domain.Parsers
             }
 
             string flag = "div class=\"entry-content\" itemprop=\"articleBody\""; // tags before text
-            int position = rawText.IndexOf(flag);
-            string text = rawText.Substring(position + 48);
-            flag = "</script></div>"; // tags a bit closer to text
-            position = text.IndexOf(flag);
-            text = text.Remove(0, position + 17);
-            position = text.IndexOf(">");
-            text = text.Substring(position + 1); // cut off data before text
-            text = text.Remove(text.IndexOf("</div>"));// cut off data after text
-            return ClearText(text);
+
+            if (rawText.Contains(flag))
+            {
+                int position = rawText.IndexOf(flag);
+                string text = rawText.Substring(position + 48);
+                flag = "</script></div>"; // tags a bit closer to text
+                position = text.IndexOf(flag);
+                text = text.Remove(0, position + 17);
+                position = text.IndexOf(">");
+                text = text.Substring(position + 1); // cut off data before text
+                text = text.Remove(text.IndexOf("</div>"));// cut off data after text
+                return ClearText(text);
+            }
+            else
+            {
+                return string.Empty;
+            }
         }
 
         private string ClearText(string initialText)
@@ -113,10 +132,17 @@ namespace WebCrawler.Domain.Parsers
             }
 
             string flag = "datePublished";
-            int position = rawText.IndexOf(flag);
-            string dateAsString = rawText.Substring(position + 25, 10);
-            string[] dividedDate = dateAsString.Split('-');
-            return new DateTime(int.Parse(dividedDate[0]), int.Parse(dividedDate[1]), int.Parse(dividedDate[2]));
+            if (rawText.Contains(flag))
+            {
+                int position = rawText.IndexOf(flag);
+                string dateAsString = rawText.Substring(position + 25, 10);
+                string[] dividedDate = dateAsString.Split('-');
+                return new DateTime(int.Parse(dividedDate[0]), int.Parse(dividedDate[1]), int.Parse(dividedDate[2]));
+            }
+            else
+            {
+                return DateTime.Now;
+            }
         }
     }
 }

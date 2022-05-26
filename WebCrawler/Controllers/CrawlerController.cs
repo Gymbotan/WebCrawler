@@ -9,7 +9,7 @@ using WebCrawler.Domain.Entities;
 namespace WebCrawler.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("Crawler")]
     public class CrawlerController : ControllerBase
     {
         private readonly MyCrawler crawler;

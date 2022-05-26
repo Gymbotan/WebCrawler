@@ -19,6 +19,7 @@ using WebCrawler.Domain.Crawlers;
 using WebCrawler.Domain.Parsers;
 using WebCrawler.Domain.AttributeFinder;
 using WebCrawler.Domain.Entities;
+using System.Net.Http;
 
 namespace WebCrawler
 {
@@ -58,6 +59,7 @@ namespace WebCrawler
             services.AddTransient<MyCrawler>();
             services.AddTransient<MyParser>();
             services.AddTransient<MyAttributeFinder>();
+            services.AddTransient<HttpClient>();
             // Connect to DataBase
             //services.AddDbContext<AppDbContext>(x => x.UseNpgsql(Configuration["ConnectionString"]));
         }

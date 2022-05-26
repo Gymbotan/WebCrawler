@@ -9,7 +9,7 @@ using WebCrawler.Domain.Entities;
 namespace WebCrawler.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("Attributes")]
     public class AttributesController : ControllerBase
     {
         private readonly MyAttributeFinder finder;
@@ -20,7 +20,7 @@ namespace WebCrawler.Controllers
         }
 
         [HttpGet]
-        public (List<PersonAttribute>, List<GeoAttribute>, List<OrganizationAttribute>) Get(string text)
+        public TextAttributes Get(string text)
         {
             return finder.FindAttributes(text);
         }

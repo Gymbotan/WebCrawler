@@ -9,7 +9,7 @@ using WebCrawler.Domain.Parsers;
 namespace WebCrawler.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("Parser")]
     public class ParserController : ControllerBase
     {
         private readonly MyParser parser;
@@ -20,7 +20,7 @@ namespace WebCrawler.Controllers
         }
 
         [HttpGet]
-        public (string, string, DateTime) Get(string text)
+        public RawTextParams Get(string text)
         {
             return parser.Parse(text);
         }
