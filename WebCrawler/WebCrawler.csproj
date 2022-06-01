@@ -23,6 +23,7 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.10" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0" />
     <PackageReference Include="Pullenti.Core" Version="4.3.0" />
+    <PackageReference Include="ServiceStack" Version="5.14.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,6 +38,11 @@
   <ItemGroup>
     <None Include="bundleconfig.json" />
     <None Include="compilerconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CrawlService\CrawlService.csproj" />
+    <ProjectReference Include="..\ParseService\ParseService.csproj" />
   </ItemGroup>
 
 </Project>

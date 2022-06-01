@@ -1,16 +1,16 @@
-﻿using Pullenti.Ner;
-using Pullenti.Ner.Geo;
-using Pullenti.Ner.Org;
-using Pullenti.Ner.Person;
+﻿//using Pullenti.Ner;
+//using Pullenti.Ner.Geo;
+//using Pullenti.Ner.Org;
+//using Pullenti.Ner.Person;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebCrawler.Domain.Entities;
+//using WebCrawler.Domain.Entities;
 
-namespace WebCrawler.Domain.Parsers
+namespace ParseService.Parsers
 {
-    public class MyParser
+    public class MyServiceParser
     {
         public (string, string, DateTime) Parse(string rawText)
         {

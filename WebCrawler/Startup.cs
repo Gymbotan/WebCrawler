@@ -20,6 +20,9 @@ using WebCrawler.Domain.Parsers;
 using WebCrawler.Domain.AttributeFinder;
 using WebCrawler.Domain.Entities;
 using System.Net.Http;
+using ServiceStack;
+using WebCrawler.Services.Crawl;
+using WebCrawler.Services.Parse;
 
 namespace WebCrawler
 {
@@ -76,6 +79,9 @@ namespace WebCrawler
 
             // Поддержка статических файлов
             app.UseStaticFiles();
+
+            //app.UseServiceStack(new CrawlAppHost());
+            //app.UseServiceStack(new ParseAppHost());
 
             // Регистрация маршрутов
             app.UseEndpoints(endpoints =>

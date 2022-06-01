@@ -20,7 +20,7 @@ namespace WebCrawler.Controllers
         }
 
         [HttpGet]
-        public RawTextParams Get(string text)
+        public (string, string, DateTime) Get(string text)
         {
             return parser.Parse(text);
         }
