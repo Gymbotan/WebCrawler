@@ -11,7 +11,6 @@ namespace WebCrawler.Domain.Entities
     {
         public Article()
         {
-            //Attributes = new();
             PersonAttributes = new();
             GeoAttributes = new();
             OrganizationAttributes = new();
@@ -47,11 +46,6 @@ namespace WebCrawler.Domain.Entities
         /// Date of the article.
         /// </summary>
         public DateTime Date { get; set; }
-
-        ///// <summary>
-        ///// Article's attributes.
-        ///// </summary>
-        //public List<string> Attributes { get; set; }
 
         /// <summary>
         /// Article's person attributes.

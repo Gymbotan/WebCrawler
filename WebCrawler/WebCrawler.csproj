@@ -41,6 +41,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AttributesService\AttributesService.csproj" />
     <ProjectReference Include="..\CrawlService\CrawlService.csproj" />
     <ProjectReference Include="..\ParseService\ParseService.csproj" />
   </ItemGroup>

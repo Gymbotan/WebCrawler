@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ServiceStack;
 
-namespace WebCrawler.Services.Parse
+namespace AttributesService
 {
-    public class Parse1Response
+    [Route("/attributes")]
+    public class AttributesRequest : IReturn<AttributesResponse>
     {
-        public string Title { get; set; }
         public string Text { get; set; }
-        public DateTime Date { get; set; }
     }
 }

@@ -21,8 +21,6 @@ using WebCrawler.Domain.AttributeFinder;
 using WebCrawler.Domain.Entities;
 using System.Net.Http;
 using ServiceStack;
-using WebCrawler.Services.Crawl;
-using WebCrawler.Services.Parse;
 
 namespace WebCrawler
 {

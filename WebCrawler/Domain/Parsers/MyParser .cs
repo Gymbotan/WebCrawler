@@ -19,6 +19,8 @@ namespace WebCrawler.Domain.Parsers
                 throw new ArgumentNullException(nameof(rawText));
             }
 
+            //rawText = SimplifyText(rawText);
+
             if (rawText.Contains("document.oncopy"))
             {
                 rawText = rawText.Substring(rawText.IndexOf("document.oncopy"));
@@ -72,8 +74,8 @@ namespace WebCrawler.Domain.Parsers
                 flag = "</script></div>"; // tags a bit closer to text
                 position = text.IndexOf(flag);
                 text = text.Remove(0, position + 17);
-                position = text.IndexOf(">");
-                text = text.Substring(position + 1); // cut off data before text
+                position = text.IndexOf("<p>");
+                text = text.Substring(position + 3); // cut off data before text
                 text = text.Remove(text.IndexOf("</div>"));// cut off data after text
                 return ClearText(text);
             }
@@ -145,5 +147,31 @@ namespace WebCrawler.Domain.Parsers
                 return DateTime.Now;
             }
         }
+
+        private static string SimplifyText(string rawText)
+        {
+            string simpleText;
+            if (rawText.Contains("document.oncopy"))
+            {
+                simpleText = rawText.Substring(rawText.IndexOf("document.oncopy"));
+            }
+            else
+            {
+                simpleText = rawText;
+            }
+
+            if (simpleText.Contains("<h1 class=\"entry-title\" itemprop=\"headline\">"))
+            {
+                simpleText = simpleText.Substring(simpleText.IndexOf("<h1 class=\"entry-title\" itemprop=\"headline\">"));
+            }
+
+            if (simpleText.Contains("div class=\"social-buttons\""))
+            {
+                simpleText = simpleText.Remove(simpleText.IndexOf("div class=\"social-buttons\""));
+            }
+
+            return simpleText;
+        }
+
     }
 }
