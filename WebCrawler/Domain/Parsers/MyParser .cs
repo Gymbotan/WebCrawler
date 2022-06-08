@@ -27,14 +27,6 @@ namespace WebCrawler.Domain.Parsers
             }
 
             return (ParseTitle(rawText), ParseText(rawText), ParseDate(rawText));
-            //RawTextParams rawTextParams = new();
-            //rawTextParams.Title = ParseTitle(rawText);
-
-            //rawTextParams.Text = ParseText(rawText);
-
-            //rawTextParams.Date = ParseDate(rawText);
-
-            //return rawTextParams;
         }
 
         private string ParseTitle(string rawText)

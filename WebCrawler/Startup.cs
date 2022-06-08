@@ -17,7 +17,6 @@ using Microsoft.EntityFrameworkCore;
 using WebCrawler.Domain.Repositories.MemoryRepository;
 using WebCrawler.Domain.Crawlers;
 using WebCrawler.Domain.Parsers;
-using WebCrawler.Domain.AttributeFinder;
 using WebCrawler.Domain.Entities;
 using System.Net.Http;
 using ServiceStack;
@@ -31,8 +30,6 @@ namespace WebCrawler
         public Startup(IConfiguration configuration)
         {
             this.Configuration = configuration;
-
-            Pullenti.Sdk.InitializeAll(); // Инициализация PullEnti
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -59,7 +56,6 @@ namespace WebCrawler
             services.AddSingleton<Storage>();
             services.AddTransient<MyCrawler>();
             services.AddTransient<MyParser>();
-            services.AddTransient<MyAttributeFinder>();
             services.AddTransient<HttpClient>();
             // Connect to DataBase
             //services.AddDbContext<AppDbContext>(x => x.UseNpgsql(Configuration["ConnectionString"]));
@@ -77,9 +73,6 @@ namespace WebCrawler
 
             // Поддержка статических файлов
             app.UseStaticFiles();
-
-            //app.UseServiceStack(new CrawlAppHost());
-            //app.UseServiceStack(new ParseAppHost());
 
             // Регистрация маршрутов
             app.UseEndpoints(endpoints =>

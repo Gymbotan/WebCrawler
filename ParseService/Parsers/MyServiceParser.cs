@@ -1,12 +1,7 @@
-﻿//using Pullenti.Ner;
-//using Pullenti.Ner.Geo;
-//using Pullenti.Ner.Org;
-//using Pullenti.Ner.Person;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-//using WebCrawler.Domain.Entities;
 
 namespace ParseService.Parsers
 {
@@ -25,14 +20,6 @@ namespace ParseService.Parsers
             }
 
             return (ParseTitle(rawText), ParseText(rawText), ParseDate(rawText));
-            //RawTextParams rawTextParams = new();
-            //rawTextParams.Title = ParseTitle(rawText);
-
-            //rawTextParams.Text = ParseText(rawText);
-
-            //rawTextParams.Date = ParseDate(rawText);
-
-            //return rawTextParams;
         }
 
         private string ParseTitle(string rawText)
