@@ -9,12 +9,20 @@ namespace WebCrawler.Domain.Entities
 {
     public class Storage
     {
-        public readonly IArticlesRepository articlesRepository = new MemoryArticlesRepository();
+        public readonly IArticlesRepository articlesRepository; // = new MemoryArticlesRepository();
 
-        public readonly IPersonAttributesRepository personAttributesRepository = new MemoryPersonAttributesRepository();
+        public readonly IPersonAttributesRepository personAttributesRepository; // = new MemoryPersonAttributesRepository();
 
-        public readonly IGeoAttributesRepository geoAttributesRepository = new MemoryGeoAttributesRepository();
+        public readonly IGeoAttributesRepository geoAttributesRepository; // = new MemoryGeoAttributesRepository();
 
-        public readonly IOrganizationAttributesRepository organizationAttributesRepository = new MemoryOrganizationAttributesRepository();
+        public readonly IOrganizationAttributesRepository organizationAttributesRepository; // = new MemoryOrganizationAttributesRepository();
+
+        public Storage(IArticlesRepository articlesRepository, IPersonAttributesRepository personAttributesRepository, IGeoAttributesRepository geoAttributesRepository, IOrganizationAttributesRepository organizationAttributesRepository)
+        {
+            this.articlesRepository = articlesRepository;
+            this.personAttributesRepository = personAttributesRepository;
+            this.geoAttributesRepository = geoAttributesRepository;
+            this.organizationAttributesRepository = organizationAttributesRepository;
+        }
     }
 }

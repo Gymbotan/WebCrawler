@@ -26,6 +26,11 @@ namespace WebCrawler.Domain.Repositories.MemoryRepository
             return Articles.FirstOrDefault(x => x.Id == id);
         }
 
+        public Article GetArticleByTitle(string title)
+        {
+            throw new NotImplementedException();
+        }
+
         public IQueryable<Article> GetArticles()
         {
             return Articles.AsQueryable();

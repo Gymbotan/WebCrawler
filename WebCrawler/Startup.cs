@@ -42,23 +42,23 @@ namespace WebCrawler
                 .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
 
             // Fill a DI-container for EF realization
-            //services.AddTransient<IArticlesRepository, EFArticlesRepository>();
-            //services.AddSingleton<IPersonAttributesRepository, EFPersonAttributesRepository>();
-            //services.AddSingleton<IOrganizationAttributesRepository, EFOrganizationAttributesRepository>();
-            //services.AddSingleton<IGeoAttributesRepository, EFGeoAttributesRepository>();
+            services.AddTransient<IArticlesRepository, EFArticlesRepository>();
+            services.AddScoped<IPersonAttributesRepository, EFPersonAttributesRepository>();
+            services.AddScoped<IOrganizationAttributesRepository, EFOrganizationAttributesRepository>();
+            services.AddScoped<IGeoAttributesRepository, EFGeoAttributesRepository>();
 
             // Fill a DI-container for inMemory realization
-            services.AddSingleton<IArticlesRepository, MemoryArticlesRepository>();
-            services.AddSingleton<IPersonAttributesRepository, MemoryPersonAttributesRepository>();
-            services.AddSingleton<IOrganizationAttributesRepository, MemoryOrganizationAttributesRepository>();
-            services.AddSingleton<IGeoAttributesRepository, MemoryGeoAttributesRepository>();
+            //services.AddSingleton<IArticlesRepository, MemoryArticlesRepository>();
+            //services.AddSingleton<IPersonAttributesRepository, MemoryPersonAttributesRepository>();
+            //services.AddSingleton<IOrganizationAttributesRepository, MemoryOrganizationAttributesRepository>();
+            //services.AddSingleton<IGeoAttributesRepository, MemoryGeoAttributesRepository>();
 
-            services.AddSingleton<Storage>();
+            services.AddScoped<Storage>();
             services.AddTransient<MyCrawler>();
             services.AddTransient<MyParser>();
             services.AddTransient<HttpClient>();
             // Connect to DataBase
-            //services.AddDbContext<AppDbContext>(x => x.UseNpgsql(Configuration["ConnectionString"]));
+            services.AddDbContext<AppDbContext>(x => x.UseNpgsql(Configuration["ConnectionString"]));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

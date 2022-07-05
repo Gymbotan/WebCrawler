@@ -30,7 +30,10 @@ namespace WebCrawler.Domain.Repositories.EntityFramework
         /// <returns>All the articles.</returns>
         public IQueryable<Article> GetArticles()
         {
-            return context.Articles;
+            return context.Articles
+                .Include(a => a.GeoAttributes)
+                .Include(a => a.PersonAttributes)
+                .Include(a => a.OrganizationAttributes);
         }
 
         /// <summary>
@@ -47,6 +50,7 @@ namespace WebCrawler.Domain.Repositories.EntityFramework
             {
                 context.Entry(entity).State = EntityState.Modified;
             }
+            //сontext.Add(entity);
             context.SaveChanges();
         }
 
@@ -67,7 +71,11 @@ namespace WebCrawler.Domain.Repositories.EntityFramework
         /// <returns>Article with choosen id.</returns>
         public Article GetArticleById(Guid id)
         {
-            return context.Articles.FirstOrDefault(x => x.Id == id);
+            return context.Articles
+                .Include(a => a.GeoAttributes)
+                .Include(a => a.PersonAttributes)
+                .Include(a => a.OrganizationAttributes)
+                .FirstOrDefault(x => x.Id == id);
         }
 
         ///// <summary>
@@ -91,12 +99,29 @@ namespace WebCrawler.Domain.Repositories.EntityFramework
 
         public IQueryable<Article> GetArticlesByTemplate(string template)
         {
-            return context.Articles.Where(article => article.Text.Contains(template, StringComparison.OrdinalIgnoreCase)).Select(x => x);
+            return context.Articles
+                .Include(a => a.GeoAttributes)
+                .Include(a => a.PersonAttributes)
+                .Include(a => a.OrganizationAttributes)
+                .Where(article => article.Text.Contains(template, StringComparison.OrdinalIgnoreCase)).Select(x => x);
         }
 
         public bool Contains(Article entity)
         {
-            return context.Articles.Any(article => article.Title.ToLower() == entity.Title.ToLower());
+            return context.Articles
+                .Include(a => a.GeoAttributes)
+                .Include(a => a.PersonAttributes)
+                .Include(a => a.OrganizationAttributes)
+                .Any(article => article.Title.ToLower() == entity.Title.ToLower());
+        }
+
+        public Article GetArticleByTitle(string title)
+        {
+            return context.Articles
+                .Include(a => a.GeoAttributes)
+                .Include(a => a.PersonAttributes)
+                .Include(a => a.OrganizationAttributes)
+                .FirstOrDefault(article => article.Title.ToLower() == title.ToLower());
         }
     }
 }

@@ -31,6 +31,13 @@ namespace WebCrawler.Domain.Repositories.Interfaces
         public Article GetArticleById(Guid id);
 
         /// <summary>
+        /// Get specific article with choosen title.
+        /// </summary>
+        /// <param name="title">Article's title</param>
+        /// <returns>Article with choosen title.</returns>
+        public Article GetArticleByTitle(string title);
+
+        /// <summary>
         /// Save article.
         /// </summary>
         /// <param name="entity">Article that should be saved.</param>

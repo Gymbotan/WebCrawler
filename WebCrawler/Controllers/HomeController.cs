@@ -14,6 +14,7 @@ using ServiceStack;
 using CrawlService;
 using ParseService;
 using AttributesService;
+using Microsoft.Extensions.Configuration;
 
 namespace WebCrawler.Controllers
 {
@@ -21,14 +22,22 @@ namespace WebCrawler.Controllers
     {
         private readonly Storage storage;
         private readonly MyParser parser;
-        private readonly string crawlAddress = "https://localhost:44381/";
-        private readonly string attributesAddress = "https://localhost:44362/";
+        private readonly JsonServiceClient crawlClient;
+        private readonly JsonServiceClient attributeClient;
 
-        public HomeController(Storage storage, MyParser parser, HttpClient client)
+        //private readonly string crawlAddress = Confiration["CrawlAddress"]; "https://localhost:44381/";
+        //private readonly string attributesAddress = "https://localhost:44362/";
+
+        public IConfiguration Configuration { get; }
+
+        public HomeController(Storage storage, MyParser parser, HttpClient client, IConfiguration configuration)
         {
             this.storage = storage;
             this.parser = parser;
-            client.BaseAddress = new Uri(crawlAddress);
+            //client.BaseAddress = new Uri(crawlAddress);
+            this.Configuration = configuration;
+            crawlClient = new JsonServiceClient(Configuration["CrawlAddress"]);
+            attributeClient = new JsonServiceClient(Configuration["AttributesAddress"]);
         }
 
         public IActionResult Index()
@@ -55,12 +64,16 @@ namespace WebCrawler.Controllers
             List<string> articlesData;
             List<Uri> articlesUrls;
 
-            using (var crawlClient = new JsonServiceClient(crawlAddress))
-            {
-                var crawlResult = crawlClient.Get(new CrawlRequest { Url = siteUrl, Amount = amount});
-                articlesData = crawlResult.Articles;
-                articlesUrls = crawlResult.Urls;
-            }
+            var crawlResult = crawlClient.Get(new CrawlRequest { Url = siteUrl, Amount = amount });
+            articlesData = crawlResult.Articles;
+            articlesUrls = crawlResult.Urls;
+
+            //using (var crawlClient = new JsonServiceClient(crawlAddress))
+            //{
+            //    var crawlResult = crawlClient.Get(new CrawlRequest { Url = siteUrl, Amount = amount});
+            //    articlesData = crawlResult.Articles;
+            //    articlesUrls = crawlResult.Urls;
+            //}
 
             for (int i = 0; i < Math.Min(articlesData.Count, articlesUrls.Count); i++)
             {
@@ -75,9 +88,17 @@ namespace WebCrawler.Controllers
 
                 if (!storage.articlesRepository.Contains(article))
                 {
-                    article.Id = Guid.NewGuid();
-                    var attributeClient = new JsonServiceClient(attributesAddress);
-                    var attributesResult = attributeClient.Get(new AttributesRequest { Text = article.Text.Substring(0, Math.Min(article.Text.Length, 350)) });
+                    //Guid id;
+                    //do
+                    //{
+                    //    id = Guid.NewGuid();
+                    //}
+                    //while (storage.articlesRepository.GetArticleById(id) != null);
+                    //article.Id = id;
+                    //var attributeClient = new JsonServiceClient(attributesAddress);
+                    storage.articlesRepository.SaveArticle(article);
+                    article = storage.articlesRepository.GetArticleByTitle(article.Title);
+                    var attributesResult = attributeClient.Get(new AttributesRequest { Text = article.Text.Substring(0, Math.Min(article.Text.Length, 355)) });
                     SaveAttributes(article, attributesResult);
 
                     storage.articlesRepository.SaveArticle(article);
@@ -103,7 +124,7 @@ namespace WebCrawler.Controllers
                 }
                 else
                 {
-                    attribute.Id = Guid.NewGuid();
+                    //attribute.Id = Guid.NewGuid();
                     attribute.Age = attr.Age;
                     attribute.Gender = attr.Gender;
                 }
@@ -123,7 +144,7 @@ namespace WebCrawler.Controllers
                 }
                 else
                 {
-                    attribute.Id = Guid.NewGuid();
+                    //attribute.Id = Guid.NewGuid();
                     attribute.Alpha2 = attr.Alpha2;
                 }
                 attribute.Owners.Add(article);
@@ -142,7 +163,7 @@ namespace WebCrawler.Controllers
                 }
                 else
                 {
-                    attribute.Id = Guid.NewGuid();
+                    //attribute.Id = Guid.NewGuid();
                     attribute.INN = attr.INN;
                     attribute.Geo = attr.Geo;
                 }

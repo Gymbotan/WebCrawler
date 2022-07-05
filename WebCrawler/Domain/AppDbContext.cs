@@ -32,6 +32,11 @@ namespace WebCrawler.Domain
         public DbSet<GeoAttribute> GeoAttributes { get; set; }
 
         /// <summary>
+        /// Table for OrganizationAttributes.
+        /// </summary>
+        public DbSet<OrganizationAttribute> OrganizationAttributes { get; set; }
+
+        /// <summary>
         /// DataBase creating.
         /// </summary>
         /// <param name="builder">Model Builder.</param>
